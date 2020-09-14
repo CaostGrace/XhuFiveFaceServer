@@ -1,4 +1,4 @@
-package cn.logcode.xhufiveface.model.vo;
+package cn.logcode.xhufiveface.model.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

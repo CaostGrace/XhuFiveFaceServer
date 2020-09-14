@@ -29,4 +29,5 @@ public class UserInfoBean {
     public String userEmail;
     public Date createTime;
     public String userPwd;
+    public boolean isManager = false;
 }

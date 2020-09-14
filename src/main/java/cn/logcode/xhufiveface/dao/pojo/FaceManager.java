@@ -6,18 +6,15 @@ import java.util.Date;
 public class FaceManager implements Serializable {
     private Integer id;
 
-    private String username;
-
-    private String userPwd;
+    private Integer userId;
 
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
-    public FaceManager(Integer id, String username, String userPwd, Date createTime) {
+    public FaceManager(Integer id, Integer userId, Date createTime) {
         this.id = id;
-        this.username = username;
-        this.userPwd = userPwd;
+        this.userId = userId;
         this.createTime = createTime;
     }
 
@@ -33,20 +30,12 @@ public class FaceManager implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd == null ? null : userPwd.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {
@@ -64,8 +53,7 @@ public class FaceManager implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", userPwd=").append(userPwd);
+        sb.append(", userId=").append(userId);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

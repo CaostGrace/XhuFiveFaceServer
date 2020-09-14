@@ -6,7 +6,7 @@ import java.util.Date;
 public class FaceLibrary implements Serializable {
     private Integer id;
 
-    private String userId;
+    private Integer userId;
 
     private Integer fileId;
 
@@ -18,7 +18,7 @@ public class FaceLibrary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public FaceLibrary(Integer id, String userId, Integer fileId, Integer groupId, String faceToken, Date createTime) {
+    public FaceLibrary(Integer id, Integer userId, Integer fileId, Integer groupId, String faceToken, Date createTime) {
         this.id = id;
         this.userId = userId;
         this.fileId = fileId;
@@ -39,12 +39,12 @@ public class FaceLibrary implements Serializable {
         this.id = id;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getFileId() {

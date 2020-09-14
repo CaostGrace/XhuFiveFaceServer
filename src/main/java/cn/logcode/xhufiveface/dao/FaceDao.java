@@ -2,8 +2,11 @@ package cn.logcode.xhufiveface.dao;
 
 import cn.logcode.xhufiveface.config.BaseException;
 import cn.logcode.xhufiveface.dao.mapper.FaceGroupMapper;
+import cn.logcode.xhufiveface.dao.mapper.FaceLibraryMapper;
 import cn.logcode.xhufiveface.dao.pojo.FaceGroup;
 import cn.logcode.xhufiveface.dao.pojo.FaceGroupExample;
+import cn.logcode.xhufiveface.dao.pojo.FaceLibrary;
+import cn.logcode.xhufiveface.dao.pojo.FaceLibraryExample;
 import cn.logcode.xhufiveface.result.ResultCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +24,8 @@ public class FaceDao {
     @Autowired
     FaceGroupMapper faceGroupMapper;
 
+    @Autowired
+    FaceLibraryMapper faceLibraryMapper;
 
     /**
      * 添加组
@@ -80,6 +85,26 @@ public class FaceDao {
      */
     public List<FaceGroup> getAllGroups(){
         return faceGroupMapper.selectByExample(null);
+    }
+
+
+    public boolean addFaceLibrary(FaceLibrary faceLibrary){
+        return faceLibraryMapper.insertSelective(faceLibrary) == 1;
+    }
+
+    public boolean deleteFaceLibraryByFaceToken(String faceToken){
+        FaceLibraryExample example = new FaceLibraryExample();
+        FaceLibraryExample.Criteria criteria = example.createCriteria();
+        criteria.andFaceTokenEqualTo(faceToken);
+        return faceLibraryMapper.deleteByExample(example) >= 0;
+
+    }
+
+    public boolean deleteFaceLibraryByUserId(int userId){
+        FaceLibraryExample example = new FaceLibraryExample();
+        FaceLibraryExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        return faceLibraryMapper.deleteByExample(example) >= 0;
     }
 
 }

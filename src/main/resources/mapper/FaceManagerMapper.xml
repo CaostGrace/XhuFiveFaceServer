@@ -4,8 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
@@ -68,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, user_pwd, create_time
+    id, user_id, create_time
   </sql>
   <select id="selectByExample" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManagerExample" resultMap="BaseResultMap">
     select
@@ -104,10 +103,8 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into face_manager (username, user_pwd, create_time
-      )
-    values (#{username,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into face_manager (user_id, create_time)
+    values (#{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -115,22 +112,16 @@
     </selectKey>
     insert into face_manager
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        username,
-      </if>
-      <if test="userPwd != null">
-        user_pwd,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userPwd != null">
-        #{userPwd,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -149,11 +140,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userPwd != null">
-        user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -166,8 +154,7 @@
   <update id="updateByExample" parameterType="map">
     update face_manager
     set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -176,11 +163,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     update face_manager
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userPwd != null">
-        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -190,8 +174,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     update face_manager
-    set username = #{username,jdbcType=VARCHAR},
-      user_pwd = #{userPwd,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

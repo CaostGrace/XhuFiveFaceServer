@@ -1,8 +1,12 @@
 package cn.logcode.xhufiveface.dao;
 
+import cn.logcode.xhufiveface.dao.mapper.FaceManagerMapper;
 import cn.logcode.xhufiveface.dao.mapper.FaceUserMapper;
+import cn.logcode.xhufiveface.dao.pojo.FaceManager;
+import cn.logcode.xhufiveface.dao.pojo.FaceManagerExample;
 import cn.logcode.xhufiveface.dao.pojo.FaceUser;
 import cn.logcode.xhufiveface.dao.pojo.FaceUserExample;
+import cn.logcode.xhufiveface.model.vo.LoginAuthBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
@@ -26,6 +30,8 @@ public class UserDao {
     @Resource
     FaceUserMapper userMapper;
 
+    @Resource
+    FaceManagerMapper faceManagerMapper;
 
     /**
      *
@@ -36,15 +42,6 @@ public class UserDao {
         FaceUserExample userExample = new FaceUserExample();
         FaceUserExample.Criteria criteria = userExample.createCriteria();
 
-        if(user.getUserBir() != null){
-            criteria.andUserBirEqualTo(user.getUserBir());
-        }
-        if(user.getUserId() != null){
-            criteria.andUserIdEqualTo(user.getUserId());
-        }
-        criteria.andUserNickEqualTo(user.getUserNick())
-                .andUserSexEqualTo(user.getUserSex())
-                .andUserHeadEqualTo(user.getUserHead());
         List<FaceUser> userList = userMapper.selectByExample(userExample);
         return userList.size() == 0 ? null : userList.get(0);
     }
@@ -53,13 +50,31 @@ public class UserDao {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    public FaceUser getUserByNickAndPwd(String nick,String pwd){
+        FaceUserExample userExample = new FaceUserExample();
+        FaceUserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUserNickEqualTo(nick).andUserPwdEqualTo(pwd);
+        List<FaceUser> userList = userMapper.selectByExample(userExample);
+        return userList.size() == 0 ? null : userList.get(0);
+    }
+
     public boolean addUser(FaceUser user) {
         return userMapper.insertSelective(user) == 1;
     }
-    
+
+    public FaceManager getManager(int userId){
+        FaceManagerExample example = new FaceManagerExample();
+        FaceManagerExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<FaceManager> managers = faceManagerMapper.selectByExample(example);
+        return managers.size() == 0?null:managers.get(0);
+    }
+
     public boolean updateUserById(FaceUser user) {
         return userMapper.updateByPrimaryKeySelective(user) == 1;
     }
+
+
 
     public FaceUser getUserByAccessToken(String token) {
         FaceUserExample userDataExample = new FaceUserExample();

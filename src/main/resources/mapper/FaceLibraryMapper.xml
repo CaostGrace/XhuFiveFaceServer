@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.logcode.xhufiveface.dao.pojo.FaceLibrary">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="group_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="face_token" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -108,7 +108,7 @@
     </selectKey>
     insert into face_library (user_id, file_id, group_id, 
       face_token, create_time)
-    values (#{userId,jdbcType=VARCHAR}, #{fileId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER}, #{fileId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
       #{faceToken,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceLibrary">
@@ -135,7 +135,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="fileId != null">
         #{fileId,jdbcType=INTEGER},
@@ -164,7 +164,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=VARCHAR},
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.fileId != null">
         file_id = #{record.fileId,jdbcType=INTEGER},
@@ -186,7 +186,7 @@
   <update id="updateByExample" parameterType="map">
     update face_library
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
       file_id = #{record.fileId,jdbcType=INTEGER},
       group_id = #{record.groupId,jdbcType=INTEGER},
       face_token = #{record.faceToken,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
     update face_library
     <set>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="fileId != null">
         file_id = #{fileId,jdbcType=INTEGER},
@@ -218,7 +218,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceLibrary">
     update face_library
-    set user_id = #{userId,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=INTEGER},
       file_id = #{fileId,jdbcType=INTEGER},
       group_id = #{groupId,jdbcType=INTEGER},
       face_token = #{faceToken,jdbcType=VARCHAR},

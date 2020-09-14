@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @package cn.logcode.demo.controller.core
@@ -43,7 +45,6 @@ public class StorageController {
     public CoreStorageService coreStorageService;
 
 
-
     @PostMapping("/upload")
     public CommonResult upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
         if (ApplicationTool.httpPath.equals("")) {
@@ -51,7 +52,10 @@ public class StorageController {
         }
         String originalFilename = file.getOriginalFilename();
         FaceStorage store = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
-        return CommonResult.success(ApplicationTool.mapOf("url", store.getUrl()));
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",store.getId());
+        map.put("url",store.getUrl());
+        return CommonResult.success(map);
     }
 
     @PostMapping("/uploads")
@@ -61,17 +65,20 @@ public class StorageController {
         }
         String originalFilename;
         FaceStorage store;
-        List<String> list = new ArrayList<>();
+        List<Map> list = new ArrayList<>();
         if (null != files && files.length > 0) {
             for (MultipartFile file : files) {
+                Map<String,Object> map = new HashMap<>();
                 originalFilename = file.getOriginalFilename();
                 store = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
-                list.add(store.getUrl());
+                map.put("id",store.getId());
+                map.put("url",store.getUrl());
+                list.add(map);
             }
         }else {
             return CommonResult.failed("文件上传失败");
         }
-        return CommonResult.success(ApplicationTool.mapOf("url", list));
+        return CommonResult.success(list);
     }
 
 

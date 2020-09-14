@@ -3,7 +3,7 @@ package cn.logcode.xhufiveface.controller;
 
 import cn.logcode.xhufiveface.annotation.CurrentUser;
 import cn.logcode.xhufiveface.dao.pojo.FaceUser;
-import cn.logcode.xhufiveface.model.vo.ValidTest;
+import cn.logcode.xhufiveface.model.dto.ValidTest;
 import cn.logcode.xhufiveface.service.core.CoreStorageService;
 import cn.logcode.xhufiveface.utils.ApplicationTool;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @RestController
 @Validated
