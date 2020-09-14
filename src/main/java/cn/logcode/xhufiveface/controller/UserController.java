@@ -1,14 +1,11 @@
-package cn.logcode.xhufiveface.controller.core;
+package cn.logcode.xhufiveface.controller;
 
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @package cn.logcode.demo.controller.core

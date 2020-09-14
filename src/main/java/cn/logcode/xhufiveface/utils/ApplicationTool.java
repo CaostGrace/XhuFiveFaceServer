@@ -33,7 +33,7 @@ public class ApplicationTool implements ApplicationContextAware, ServletContextL
 
     public static final Log logger = LogFactory.getLog(ApplicationTool.class);
 
-    public static AipFace aipFace = null;
+    private static AipFace aipFace = null;
 
     /**
      * 上下文对象实例

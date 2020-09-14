@@ -5,7 +5,6 @@ import cn.logcode.xhufiveface.dao.mapper.FaceGroupMapper;
 import cn.logcode.xhufiveface.dao.pojo.FaceGroup;
 import cn.logcode.xhufiveface.dao.pojo.FaceGroupExample;
 import cn.logcode.xhufiveface.result.ResultCode;
-import cn.logcode.xhufiveface.service.core.FaceService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,20 @@ public class FaceDao {
         return null;
     }
 
+    public FaceGroup getGroupById(int id){
+        return faceGroupMapper.selectByPrimaryKey(id);
+    }
+
+    public boolean  deleteGroupByName(String groupName){
+        FaceGroupExample example = new FaceGroupExample();
+        FaceGroupExample.Criteria criteria = example.createCriteria();
+        criteria.andGroupNameEqualTo(groupName);
+        return faceGroupMapper.deleteByExample(example) == 1;
+    }
+
+    public boolean  deleteGroupById(int id){
+        return faceGroupMapper.deleteByPrimaryKey(id) == 1;
+    }
 
     /**
      * 获取所有用户组

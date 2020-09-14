@@ -5,7 +5,9 @@ import cn.logcode.xhufiveface.result.ResultCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,6 +33,15 @@ public class GlobalExceptionHandler {
         if (ex instanceof BindException) {
             msg = ((BindException) ex).getBindingResult().getFieldError().getDefaultMessage();
         }
+
+        if(ex instanceof MissingServletRequestParameterException){
+            msg = ((MissingServletRequestParameterException) ex).getMessage();
+        }
+
+        if(ex instanceof HttpRequestMethodNotSupportedException){
+            msg = ((HttpRequestMethodNotSupportedException) ex).getMethod();
+        }
+
         return msg == null ? CommonResult.failed(ResultCode.SERVER_ERROR) : CommonResult.failed(ResultCode.VALIDATE_FAILED.getCode(), msg);
     }
 }
