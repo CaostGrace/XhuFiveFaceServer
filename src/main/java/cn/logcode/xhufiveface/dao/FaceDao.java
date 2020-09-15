@@ -114,5 +114,21 @@ public class FaceDao {
         return faceLibraryMapper.deleteByExample(example) != -1;
     }
 
+    public List<FaceLibrary> getFaceDataByUserId(int userId){
+        FaceLibraryExample example = new FaceLibraryExample();
+        FaceLibraryExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        return faceLibraryMapper.selectByExample(example);
+
+    }
+    public List<FaceLibrary> getFaceDataByGroupId(int groupId){
+
+        FaceLibraryExample example = new FaceLibraryExample();
+        FaceLibraryExample.Criteria criteria = example.createCriteria();
+        criteria.andGroupIdEqualTo(groupId);
+        return faceLibraryMapper.selectByExample(example);
+
+    }
+
 
 }

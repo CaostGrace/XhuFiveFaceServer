@@ -4,6 +4,7 @@ import cn.logcode.xhufiveface.config.BaseException;
 import cn.logcode.xhufiveface.dao.FaceDao;
 import cn.logcode.xhufiveface.dao.UserDao;
 import cn.logcode.xhufiveface.dao.pojo.*;
+import cn.logcode.xhufiveface.model.vo.UserFaceData;
 import cn.logcode.xhufiveface.result.ResultCode;
 import cn.logcode.xhufiveface.utils.Imagebase64;
 import com.baidu.aip.face.AipFace;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class FaceService {
@@ -34,6 +37,8 @@ public class FaceService {
 
     @Autowired
     UserDao userDao;
+
+
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public boolean addGroup(String groupName){
@@ -65,6 +70,11 @@ public class FaceService {
         }
         throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);
 
+    }
+
+
+    public List<FaceGroup> getGroupList(){
+        return faceDao.getAllGroups();
     }
 
 
@@ -154,7 +164,7 @@ public class FaceService {
             String imageType = "BASE64";
             String groupId = group.getGroupName();
 
-            // 人脸注册
+
             JSONObject res = client.updateUser(image, imageType, groupId, userId+"", options);
 
             if(res.getInt("error_code") != 0){
@@ -311,6 +321,113 @@ public class FaceService {
 
 
 
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public boolean updateUserFaceGroup(int userId,int groupId){
+
+        deleteFaceUser(userId);
+        FaceUser faceUser = new FaceUser();
+        faceUser.setUserId(userId);
+        faceUser.setGroupId(groupId);
+        if (!userDao.updateUserById(faceUser)) {
+            throw new BaseException(ResultCode.FAILED);
+        }
+        return true;
+    }
 
 
+    public List<UserFaceData> getUserFaceData(int userId){
+
+        List<FaceLibrary> libraryList = faceDao.getFaceDataByUserId(userId);
+
+        FaceUser user = userDao.getUserById(userId);
+
+        if(user == null){
+            throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);
+        }
+
+        FaceGroup group = faceDao.getGroupById(user.getGroupId());
+        if(group == null){
+            throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);
+        }
+
+        List<Integer> fileIds = new ArrayList<>();
+
+        libraryList.forEach(s->{
+            fileIds.add(s.getFileId());
+        });
+        List<FaceStorage> storages = storageService.getByIds(fileIds);
+
+        List<UserFaceData> userFaceDataList = new ArrayList<>();
+
+        storages.forEach(s->{
+            UserFaceData data = new UserFaceData();
+            data.setUserId(userId);
+            data.setUserName(user.getUserNick());
+            data.setGroupName(group.getGroupName());
+            data.setGroupId(group.getId());
+            data.setFileId(s.getId());
+            data.setFilePath(s.getUrl());
+
+            libraryList.forEach(face->{
+                if(face.getFileId().equals(s.getId())){
+                    data.setFaceToken(face.getFaceToken());
+                    data.setId(face.getId());
+                }
+            });
+            userFaceDataList.add(data);
+        });
+
+        return userFaceDataList;
+    }
+
+
+    public List<UserFaceData> getGroupFaceData(int groupId) {
+
+        List<FaceLibrary> libraryList = faceDao.getFaceDataByGroupId(groupId);
+
+        FaceGroup group = faceDao.getGroupById(groupId);
+        if(group == null){
+            throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);
+        }
+
+        List<Integer> fileIds = new ArrayList<>();
+        List<Integer> userIds = new ArrayList<>();
+        libraryList.forEach(s->{
+            fileIds.add(s.getId());
+            userIds.add(s.getUserId());
+        });
+        List<FaceStorage> storages = storageService.getByIds(fileIds);
+        List<FaceUser> faceUserList = userDao.getByIds(userIds);
+
+        List<UserFaceData> userFaceDataList = new ArrayList<>();
+
+
+        libraryList.forEach(l->{
+            UserFaceData data = new UserFaceData();
+            data.setGroupName(group.getGroupName());
+            data.setGroupId(group.getId());
+            data.setFaceToken(l.getFaceToken());
+            data.setId(l.getId());
+
+            storages.forEach(s->{
+                if(s.getId().equals(l.getFileId())){
+                    data.setFileId(s.getId());
+                    data.setFilePath(s.getUrl());
+                }
+            });
+
+            faceUserList.forEach(u->{
+                if(u.getUserId().equals(l.getUserId())){
+                    data.setUserId(u.getUserId());
+                    data.setUserName(u.getUserNick());
+                }
+
+            });
+
+            userFaceDataList.add(data);
+        });
+
+
+        return userFaceDataList;
+    }
 }

@@ -47,12 +47,7 @@ public class ManagerService {
         }
         throw new BaseException(ResultCode.FAILED);
     }
-    public boolean updateManagerNameAndPwd(int id,String name,String pwd){
-
-        FaceManager manager = new FaceManager();
-        manager.setId(id);
-        manager.setUserNick(name);
-        manager.setUserPwd(pwd);
+    public boolean updateManager(FaceManager manager){
         if(managerDao.updateManager(manager)){
             return true;
         }

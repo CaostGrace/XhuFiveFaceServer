@@ -44,9 +44,10 @@ CREATE TABLE `face_manager`  (
   `user_pwd` varchar(255)  NOT NULL COMMENT '用户登录密码',
   `access_token` varchar(500)  NULL COMMENT '登录授权token',
   `expires_time` datetime  NULL COMMENT 'token过期时间',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 );
+insert into face_manager values (NULL,'admin','123456',NULL,NULL,NULL);
 
 DROP TABLE IF EXISTS  face_group;
 CREATE TABLE `face_group`  (

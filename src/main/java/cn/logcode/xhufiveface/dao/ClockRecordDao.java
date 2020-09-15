@@ -24,6 +24,10 @@ public class ClockRecordDao {
         return clockRecordMapper.selectByExample(example);
     }
 
+    public List<FaceClockRecord> getAll(){
+        return clockRecordMapper.selectByExample(null);
+    }
+
     public List<FaceClockRecord> getByToday(){
         FaceClockRecordExample example = new FaceClockRecordExample();
         FaceClockRecordExample.Criteria criteria = example.createCriteria();

@@ -38,6 +38,24 @@ public class PunchClockService {
     }
 
 
+    public List<ClockRecordBean> getTodayRecord(){
+        List<FaceClockRecord> list = clockRecordDao.getByToday();
+        List<ClockRecordBean> recordBeans = new ArrayList<>();
+        list.forEach(ob->{
+            recordBeans.add(clockToBean(ob));
+        });
+        return recordBeans;
+    }
+
+    public List<ClockRecordBean> getAllRecord(){
+        List<FaceClockRecord> list = clockRecordDao.getAll();
+        List<ClockRecordBean> recordBeans = new ArrayList<>();
+        list.forEach(ob->{
+            recordBeans.add(clockToBean(ob));
+        });
+        return recordBeans;
+    }
+
     /**
      * 用户打卡
      * @param userId
@@ -57,6 +75,11 @@ public class PunchClockService {
                 throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);
             }
         }else {
+
+            if(record.getEndtime() != null){
+                throw  new BaseException(ResultCode.FAILED.code,"请不要重复打卡");
+            }
+
             record.setEndtime(new Date());
             if (!clockRecordDao.updateRecord(record)) {
                 throw new BaseException(ResultCode.SERVICE_BUSINESS_ERROR);

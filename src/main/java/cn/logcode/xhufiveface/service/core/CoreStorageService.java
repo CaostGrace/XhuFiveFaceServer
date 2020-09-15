@@ -4,6 +4,7 @@ package cn.logcode.xhufiveface.service.core;
 import cn.logcode.xhufiveface.dao.mapper.FaceStorageMapper;
 import cn.logcode.xhufiveface.dao.pojo.FaceStorage;
 import cn.logcode.xhufiveface.dao.pojo.FaceStorageExample;
+import cn.logcode.xhufiveface.storage.Storage;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,6 +77,14 @@ public class CoreStorageService {
         }
 
         PageHelper.startPage(page, limit);
+        return storageMapper.selectByExample(example);
+    }
+
+
+    public List<FaceStorage> getByIds(List<Integer> ids){
+        FaceStorageExample example = new FaceStorageExample();
+        FaceStorageExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(ids);
         return storageMapper.selectByExample(example);
     }
 

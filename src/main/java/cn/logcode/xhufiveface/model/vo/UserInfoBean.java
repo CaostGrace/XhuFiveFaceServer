@@ -4,6 +4,7 @@ import cn.logcode.xhufiveface.dao.pojo.FaceUser;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -18,6 +19,7 @@ import java.util.Date;
 @Data
 public class UserInfoBean {
 
+    @NotNull(message = "传入的用户id为null，请传值")
     public Integer userId;
     public String userNick;
     public String userReal;

@@ -10,10 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @package cn.logcode.demo.controller.core
@@ -38,11 +35,22 @@ public class UserController {
         return CommonResult.success(userService.getUserInfo(user.getUserId()));
     }
 
+    @GetMapping(value = "/getUserInfoById")
+    public CommonResult<UserInfoBean> getUserInfoById(@RequestParam(value = "userId",required = true)int userId){
+        return CommonResult.success(userService.getUserInfo(userId));
+    }
+
+
     @PostMapping(value = "/updateUserInfo")
     public CommonResult updateUserInfo(@CurrentUser FaceUser user,UserInfoBean userInfoBean){
         userInfoBean.setUserId(user.getUserId());
         return CommonResult.success(userService.updateUserInfo(userInfoBean));
     }
+    @PostMapping(value = "/updateUserInfoById")
+    public CommonResult updateUserInfo(UserInfoBean userInfoBean){
+        return CommonResult.success(userService.updateUserInfo(userInfoBean));
+    }
+
 
 
 
