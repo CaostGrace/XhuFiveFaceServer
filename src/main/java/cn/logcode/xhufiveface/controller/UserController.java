@@ -47,7 +47,7 @@ public class UserController {
         return CommonResult.success(userService.updateUserInfo(userInfoBean));
     }
     @PostMapping(value = "/updateUserInfoById")
-    public CommonResult updateUserInfo(UserInfoBean userInfoBean){
+    public CommonResult updateUserInfoById(@RequestParam(value = "userId",required = true)int userId,UserInfoBean userInfoBean){
         return CommonResult.success(userService.updateUserInfo(userInfoBean));
     }
 
