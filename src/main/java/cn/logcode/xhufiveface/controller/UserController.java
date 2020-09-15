@@ -39,9 +39,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/updateUserInfo")
-    public CommonResult updateUserInfo(){
-
-        return null;
+    public CommonResult updateUserInfo(@CurrentUser FaceUser user,UserInfoBean userInfoBean){
+        userInfoBean.setUserId(user.getUserId());
+        return CommonResult.success(userService.updateUserInfo(userInfoBean));
     }
+
+
+
 
 }

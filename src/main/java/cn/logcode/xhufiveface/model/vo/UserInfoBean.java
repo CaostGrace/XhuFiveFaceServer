@@ -18,7 +18,6 @@ import java.util.Date;
 @Data
 public class UserInfoBean {
 
-    public LoginAuthBean auth;
     public Integer userId;
     public String userNick;
     public String userReal;
@@ -27,7 +26,5 @@ public class UserInfoBean {
     public Date userBir;
     public String userPhone;
     public String userEmail;
-    public Date createTime;
     public String userPwd;
-    public boolean isManager = false;
 }

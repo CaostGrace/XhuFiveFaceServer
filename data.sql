@@ -65,7 +65,12 @@ CREATE TABLE `face_library`  (
 );
 
 
-
-
-
-
+DROP TABLE IF EXISTS  face_clock_record;
+CREATE TABLE `face_clock_record`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键，唯一标识，自增，步长1',
+  `today` varchar(20) NOT NULL comment '今天日期',
+  `user_id` int(9) NOT NULL COMMENT '用户id',
+  `startTime` datetime NULL comment '上班时间',
+  `endTime` datetime NULL comment '下班时间',
+  PRIMARY KEY (`id`)
+);

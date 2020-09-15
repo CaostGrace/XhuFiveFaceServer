@@ -39,13 +39,7 @@ public class UserService {
             throw new BaseException(ResultCode.FAILED.getCode(), "用户不存在");
         }
 
-        LoginAuthBean authBean = new LoginAuthBean();
-        authBean.setAccess_token(user.getAccessToken());
-        authBean.setExpires_in(user.getExpiresTime().getTime()+"");
-
         UserInfoBean userInfoBean = new UserInfoBean();
-        userInfoBean.setAuth(authBean);
-        userInfoBean.setCreateTime(user.getCreateTime());
         userInfoBean.setUserBir(user.getUserBir());
         userInfoBean.setUserEmail(user.getUserEmail());
         userInfoBean.setUserHead(user.getUserHead());
@@ -55,10 +49,6 @@ public class UserService {
         userInfoBean.setUserPwd(user.getUserPwd());
         userInfoBean.setUserReal(user.getUserReal());
         userInfoBean.setUserSex(user.getUserSex());
-
-        if(userDao.getManager(userId) != null){
-            userInfoBean.isManager = true;
-        }
 
         return userInfoBean;
     }
@@ -98,6 +88,41 @@ public class UserService {
         }
         throw new BaseException(ResultCode.SERVER_ERROR);
     }
+
+
+    public boolean updateUserInfo(UserInfoBean userInfoBean){
+        FaceUser user = new FaceUser();
+        user.setUserId(userInfoBean.getUserId());
+        if(userInfoBean.getUserBir() != null){
+            user.setUserBir(userInfoBean.getUserBir());
+        }
+        if(userInfoBean.getUserEmail() != null){
+            user.setUserEmail(userInfoBean.getUserEmail());
+        }
+        if(userInfoBean.getUserHead() != null){
+            user.setUserHead(userInfoBean.getUserHead());
+        }
+        if(userInfoBean.getUserNick() != null){
+            user.setUserNick(userInfoBean.getUserNick());
+        }
+        if(userInfoBean.getUserPhone() != null){
+            user.setUserPhone(userInfoBean.getUserPhone());
+        }
+        if(userInfoBean.getUserPwd() != null){
+            user.setUserPwd(userInfoBean.getUserPwd());
+        }
+        if(userInfoBean.getUserReal() != null){
+            user.setUserReal(userInfoBean.getUserReal());
+        }
+        if(userInfoBean.getUserSex() != null){
+            user.setUserSex(userInfoBean.getUserSex());
+        }
+
+        return userDao.updateUserById(user);
+    }
+
+
+
 
 
 }
