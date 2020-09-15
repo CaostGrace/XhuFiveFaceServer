@@ -7,6 +7,7 @@
 /.mvn
 /logs
 /storage
+/src/main/resources/application-pron.properties
 /target
 HELP.md
 mvnw.cmd
