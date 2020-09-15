@@ -32,8 +32,6 @@ public class UserService {
     UserDao userDao;
 
 
-    @Autowired
-    SchoolService schoolService;
 
     public UserInfoBean getUserInfo(int userId) {
         FaceUser user = userDao.getUserById(userId);

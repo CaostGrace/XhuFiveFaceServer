@@ -14,19 +14,6 @@ CREATE TABLE `face_storage`  (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS  face_school_user;
-CREATE TABLE `face_school_user`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int(9) NOT NULL COMMENT '用户id',
-  `school_user_id` varchar(50)  NULL COMMENT '学校用户id，等同于学号',
-  `enter_year` int(4) NULL COMMENT '入学年份',
-  `school_id` int NOT NULL COMMENT '学校id',
-  `college_id` int NULL COMMENT '分院id',
-  `major_id` int NULL COMMENT '专业id',
-  `class_id` int NULL COMMENT '班级id',
-  `create_time` datetime NULL,
-  PRIMARY KEY (`id`)
-);
 
 DROP TABLE IF EXISTS  face_user;
 CREATE TABLE `face_user`  (
@@ -48,43 +35,7 @@ CREATE TABLE `face_user`  (
   PRIMARY KEY (`user_id`)
 )auto_increment=1000;
 
-DROP TABLE IF EXISTS  face_major;
-CREATE TABLE `face_major`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '学校专业id',
-  `school_id` int NOT NULL COMMENT '学校id',
-  `college_id` int NOT NULL COMMENT '分院id',
-  `name` varchar(255) NOT NULL COMMENT '专业名',
-  `create_time` datetime NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-);
 
-DROP TABLE IF EXISTS  face_college;
-CREATE TABLE `face_college`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '分院id',
-  `school_id` int NOT NULL COMMENT '学校id',
-  `name` varchar(255) NOT NULL COMMENT '分院名称',
-  `create_time` datetime NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-);
-
-DROP TABLE IF EXISTS  face_class;
-CREATE TABLE `face_class`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '班级id',
-  `school_id` int NOT NULL COMMENT '学校id',
-  `college_id` int NOT NULL COMMENT '分院id',
-  `major_id` int NOT NULL COMMENT '专业id',
-  `name` varchar(255) NOT NULL COMMENT '班级名',
-  `create_time` datetime NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-);
-
-DROP TABLE IF EXISTS  face_school;
-CREATE TABLE `face_school`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键，唯一标识，自增，步长1',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT ' 学校名称，具备唯一性，作为唯一索引',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-);
 
 DROP TABLE IF EXISTS  face_manager;
 CREATE TABLE `face_manager`  (

@@ -53,7 +53,7 @@ public class FaceService {
     public boolean deleteGroup(int groupId){
         FaceGroup group = faceDao.getGroupById(groupId);
         if(group != null){
-            if (faceDao.deleteGroupById(groupId)) {
+            if (faceDao.deleteGroupById(groupId) && faceDao.deleteFaceLibraryByGroupId(group.getId())) {
                 // 传入可选参数调用接口
                 HashMap<String, String> options = new HashMap<String, String>();
                 // 删除用户组

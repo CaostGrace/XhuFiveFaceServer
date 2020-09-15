@@ -96,7 +96,7 @@ public class FaceDao {
         FaceLibraryExample example = new FaceLibraryExample();
         FaceLibraryExample.Criteria criteria = example.createCriteria();
         criteria.andFaceTokenEqualTo(faceToken);
-        return faceLibraryMapper.deleteByExample(example) >= 0;
+        return faceLibraryMapper.deleteByExample(example) != -1;
 
     }
 
@@ -104,7 +104,15 @@ public class FaceDao {
         FaceLibraryExample example = new FaceLibraryExample();
         FaceLibraryExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        return faceLibraryMapper.deleteByExample(example) >= 0;
+        return faceLibraryMapper.deleteByExample(example) != -1;
     }
+
+    public boolean deleteFaceLibraryByGroupId(int groupId){
+        FaceLibraryExample example = new FaceLibraryExample();
+        FaceLibraryExample.Criteria criteria = example.createCriteria();
+        criteria.andGroupIdEqualTo(groupId);
+        return faceLibraryMapper.deleteByExample(example) != -1;
+    }
+
 
 }

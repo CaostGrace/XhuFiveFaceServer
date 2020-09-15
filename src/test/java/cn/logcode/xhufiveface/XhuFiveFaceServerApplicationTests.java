@@ -1,5 +1,6 @@
 package cn.logcode.xhufiveface;
 
+import cn.logcode.xhufiveface.config.AppConfig;
 import cn.logcode.xhufiveface.service.core.FaceService;
 import cn.logcode.xhufiveface.utils.ApplicationTool;
 import com.baidu.aip.face.AipFace;
@@ -19,12 +20,12 @@ class XhuFiveFaceServerApplicationTests {
     @Autowired
     FaceService faceService;
 
-
-
+    @Autowired
+    AppConfig appConfig;
 
     @Test
     void contextLoads() {
-        faceService.faceVerification(1000,5);
+        System.out.print(appConfig.startTime);
     }
 
 
