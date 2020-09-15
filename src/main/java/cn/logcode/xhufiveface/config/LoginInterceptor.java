@@ -2,7 +2,9 @@ package cn.logcode.xhufiveface.config;
 
 
 import cn.logcode.xhufiveface.AppConstant;
+import cn.logcode.xhufiveface.dao.ManagerDao;
 import cn.logcode.xhufiveface.dao.UserDao;
+import cn.logcode.xhufiveface.dao.pojo.FaceManager;
 import cn.logcode.xhufiveface.dao.pojo.FaceUser;
 import cn.logcode.xhufiveface.result.ResultCode;
 import cn.logcode.xhufiveface.utils.ApplicationTool;
@@ -33,16 +35,38 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    ManagerDao managerDao;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String token = request.getHeader(AppConstant.ACCESS_TOKEN);
 
+        String type = request.getHeader(AppConstant.ACCESS_TYPE);
+
         if (token == null || token.equals("")) {
             throw new BaseException(ResultCode.UNAUTHORIZED);
         }
 
+        if (type == null || type.equals("")) {
+            throw new BaseException(ResultCode.UNAUTHORIZED);
+        }
         logger.info(token);
+        if(type.equals(AppConstant.TOKEN_TYPE_USER)){
+            userHandle(token,request);
+            return true;
+        }else if(type.equals(AppConstant.TOKEN_TYPE_MANAGER)){
+            managerHandle(token,request);
+            return true;
+        }
+
+        throw new BaseException(ResultCode.UNAUTHORIZED);
+    }
+
+
+    private void userHandle(String token,HttpServletRequest request){
+
         FaceUser userData = userDao.getUserByAccessToken(token);
 
         if(userData == null){
@@ -64,7 +88,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         tmp.setUserId(userData.getUserId());
         tmp.setLoginIp(ApplicationTool.getClientRequestIp());
         userDao.updateUserById(tmp);
-
-        return true;
     }
+
+    private void managerHandle(String token,HttpServletRequest request){
+        FaceManager manager = managerDao.getByAccessToken(token);
+        if(manager == null){
+            throw new BaseException(ResultCode.UNAUTHORIZED);
+        }
+        //登录过期
+        if(manager.getExpiresTime().getTime() < System.currentTimeMillis()){
+            throw new BaseException(ResultCode.UNAUTHORIZED);
+        }
+        request.setAttribute(AppConstant.LOGIN_MANAGER_ID,manager.getId());
+    }
+
 }

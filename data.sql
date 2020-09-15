@@ -40,7 +40,10 @@ CREATE TABLE `face_user`  (
 DROP TABLE IF EXISTS  face_manager;
 CREATE TABLE `face_manager`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键，唯一标识，自增，步长1',
-  `user_id` int(9) NULL COMMENT '用户id',
+  `user_nick` varchar(50) NOT NULL COMMENT '用户昵称',
+  `user_pwd` varchar(255)  NOT NULL COMMENT '用户登录密码',
+  `access_token` varchar(500)  NULL COMMENT '登录授权token',
+  `expires_time` datetime  NULL COMMENT 'token过期时间',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 );

@@ -3,6 +3,7 @@ package cn.logcode.xhufiveface.utils;
 
 import cn.logcode.xhufiveface.AppConstant;
 import cn.logcode.xhufiveface.config.GsonMessageConfig;
+import cn.logcode.xhufiveface.dao.pojo.FaceManager;
 import cn.logcode.xhufiveface.dao.pojo.FaceUser;
 import cn.logcode.xhufiveface.model.dto.AccessTokenBean;
 import cn.logcode.xhufiveface.model.vo.LoginAuthBean;
@@ -280,6 +281,33 @@ public class ApplicationTool implements ApplicationContextAware, ServletContextL
         authBean.setExpires_in(expiresTime + "");
         return authBean;
     }
+
+    public static LoginAuthBean createManagerLoginToken(FaceManager manager) {
+        int id = manager.getId();
+        //当前时间戳
+        long currentTime = System.currentTimeMillis();
+        //时效两小时
+        long timeDuration = 1 * 1000 * 60 * 60 * 2;
+        //结束时间戳
+        long expiresTime = currentTime + timeDuration;
+
+        AccessTokenBean accessTokenBean = new AccessTokenBean();
+        accessTokenBean.setUserId(manager.getId());
+        accessTokenBean.setCreateTime(manager.getCreateTime());
+        accessTokenBean.setUserNick(manager.getUserNick());
+        accessTokenBean.setUserPwd(manager.getUserPwd());
+        accessTokenBean.setTimeDuration(timeDuration);
+        accessTokenBean.setCurrentTime(currentTime);
+        accessTokenBean.setExpiresTime(expiresTime);
+
+        String token = AESUtils.encrypt(GsonMessageConfig.DEFAULT_GSON.toJson(accessTokenBean), AESUtils.key, AESUtils.iv);
+
+        LoginAuthBean authBean = new LoginAuthBean();
+        authBean.setAccess_token(token);
+        authBean.setExpires_in(expiresTime + "");
+        return authBean;
+    }
+
 
     /**
      * 获取客户端的请求ip

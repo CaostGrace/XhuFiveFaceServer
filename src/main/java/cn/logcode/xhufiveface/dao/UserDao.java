@@ -62,14 +62,6 @@ public class UserDao {
         return userMapper.insertSelective(user) == 1;
     }
 
-    public FaceManager getManager(int userId){
-        FaceManagerExample example = new FaceManagerExample();
-        FaceManagerExample.Criteria criteria = example.createCriteria();
-        criteria.andUserIdEqualTo(userId);
-        List<FaceManager> managers = faceManagerMapper.selectByExample(example);
-        return managers.size() == 0?null:managers.get(0);
-    }
-
     public boolean updateUserById(FaceUser user) {
         return userMapper.updateByPrimaryKeySelective(user) == 1;
     }

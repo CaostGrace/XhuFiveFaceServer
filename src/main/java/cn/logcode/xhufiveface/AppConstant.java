@@ -4,7 +4,13 @@ public class AppConstant {
 
     public static final boolean LOCAL_STORAGE = true;
     public static final String ACCESS_TOKEN = "access_token";
+    public static final String ACCESS_TYPE = "access_type";
+    public static final String TOKEN_TYPE_USER = "access_type_user";
+    public static final String TOKEN_TYPE_MANAGER = "access_type_manager";
+
+
     public static final String LOGIN_USER_ID = "LOGIN_USER_ID";
+    public static final String LOGIN_MANAGER_ID = "LOGIN_MANAGER_ID";
     public static final String phoneRegex="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
 
     public static final int PROHIBIT_TRUE = 1;

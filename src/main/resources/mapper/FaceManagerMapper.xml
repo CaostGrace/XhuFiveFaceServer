@@ -4,7 +4,10 @@
   <resultMap id="BaseResultMap" type="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_nick" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="access_token" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="expires_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
@@ -67,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, create_time
+    id, user_nick, user_pwd, access_token, expires_time, create_time
   </sql>
   <select id="selectByExample" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManagerExample" resultMap="BaseResultMap">
     select
@@ -103,8 +106,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into face_manager (user_id, create_time)
-    values (#{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+    insert into face_manager (user_nick, user_pwd, access_token, 
+      expires_time, create_time)
+    values (#{userNick,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, 
+      #{expiresTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -112,16 +117,34 @@
     </selectKey>
     insert into face_manager
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="userNick != null">
+        user_nick,
+      </if>
+      <if test="userPwd != null">
+        user_pwd,
+      </if>
+      <if test="accessToken != null">
+        access_token,
+      </if>
+      <if test="expiresTime != null">
+        expires_time,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="userNick != null">
+        #{userNick,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null">
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null">
+        #{expiresTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -140,8 +163,17 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.userNick != null">
+        user_nick = #{record.userNick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPwd != null">
+        user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessToken != null">
+        access_token = #{record.accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expiresTime != null">
+        expires_time = #{record.expiresTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -154,7 +186,10 @@
   <update id="updateByExample" parameterType="map">
     update face_manager
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+      user_nick = #{record.userNick,jdbcType=VARCHAR},
+      user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      access_token = #{record.accessToken,jdbcType=VARCHAR},
+      expires_time = #{record.expiresTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -163,8 +198,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     update face_manager
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="userNick != null">
+        user_nick = #{userNick,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null">
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null">
+        expires_time = #{expiresTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -174,7 +218,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.logcode.xhufiveface.dao.pojo.FaceManager">
     update face_manager
-    set user_id = #{userId,jdbcType=INTEGER},
+    set user_nick = #{userNick,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      expires_time = #{expiresTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -48,4 +48,10 @@ public class ClockRecordDao {
 
     }
 
+    public boolean updateRecord(FaceClockRecord record){
+
+        return clockRecordMapper.updateByPrimaryKeySelective(record) == 1;
+
+    }
+
 }

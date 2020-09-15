@@ -1,10 +1,12 @@
 package cn.logcode.xhufiveface.controller.core;
 
+import cn.logcode.xhufiveface.dao.pojo.FaceManager;
 import cn.logcode.xhufiveface.dao.pojo.FaceUser;
 import cn.logcode.xhufiveface.model.dto.LoginBean;
 import cn.logcode.xhufiveface.model.dto.RegisterUser;
 import cn.logcode.xhufiveface.model.vo.LoginAuthBean;
 import cn.logcode.xhufiveface.result.CommonResult;
+import cn.logcode.xhufiveface.service.ManagerService;
 import cn.logcode.xhufiveface.service.UserService;
 import cn.logcode.xhufiveface.utils.ApplicationTool;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +24,9 @@ public class AppController {
     @Resource
     UserService userService;
 
+    @Resource
+    ManagerService managerService;
+
 
     @PostMapping(value = "/login")
     public CommonResult<LoginAuthBean> login(@Validated LoginBean loginBean) throws Exception {
@@ -36,5 +41,13 @@ public class AppController {
         return CommonResult.success(userService.addUser(registerUser));
     }
 
+    @PostMapping(value = "/managerLogin")
+    public CommonResult<LoginAuthBean> managerLogin(@Validated LoginBean loginBean){
+        FaceManager manager = managerService.login(loginBean.userName,loginBean.pwd);
+        LoginAuthBean authBean = ApplicationTool.createManagerLoginToken(manager);
+        managerService.updateManagerAccessToken(manager.getId(),authBean);
+        return CommonResult.success(authBean,"登录成功");
+
+    }
 
 }
